@@ -69,8 +69,8 @@ const gallery = document.querySelector(".gallery");
 gallery.addEventListener("click", function(event) {
     event.preventDefault();
     if (event.target.classList.contains("gallery-link")) {
-    const originalImage = event.target.href;
-    const modalContent = `<img src="${originalImage}" alt="Large Image">`;
+    const biglImage = event.target.href;
+    const modalContent = `<img src="${biglImage}" alt="Large Image">`;
     const instance = basicLightbox.create(modalContent);
       
     instance.show();
