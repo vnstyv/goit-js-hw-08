@@ -64,18 +64,42 @@ const images = [
   },
 ];
 
+function openLightbox(imageSource) {
+    const modalCont = `<img src="${imageSource}" alt="Large Image">`;
+    const instance = basicLightbox.create(modalCont, {
+    onShow: (instance) => {
+    const keydownEscape = (event) => {
+    if (event.key === "Escape") {
+    instance.close();
+    document.removeEventListener('keydown', keydownEscape);
+    }
+  };
+    document.addEventListener('keydown', keydownEscape);
+
+    instance.element().querySelector('a').onclick = () => {
+    instance.close();
+    document.removeEventListener('keydown', keydownEscape);
+    };
+  }
+});
+    instance.show();
+}
+
+
+
 const gallery = document.querySelector(".gallery");
 
 gallery.addEventListener("click", function(event) {
     event.preventDefault();
-    if (event.target.classList.contains("gallery-link")) {
-    const biglImage = event.target.href;
+    if (event.target.classList.contains("gallery-image")) {
+    const biglImage = event.target.dataset.source;
     const modalContent = `<img src="${biglImage}" alt="Large Image">`;
     const instance = basicLightbox.create(modalContent);
-      
     instance.show();
     }
 });
+
+
 
     images.forEach(element => {
         
@@ -94,13 +118,14 @@ gallery.addEventListener("click", function(event) {
     galleryImage.classList.add("gallery-image");
     galleryImage.src = element.preview;
     galleryImage.alt = element.description;
+    galleryImage.setAttribute("data-source", element.original);
    
     galleryLink.append(galleryImage);
     imgGallery.appendChild(galleryLink);
     gallery.appendChild(imgGallery);
-     
     });
 
-   
+
+
 
 
