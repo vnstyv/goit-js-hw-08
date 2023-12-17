@@ -70,10 +70,10 @@ const instance = basicLightbox.create(
   `<img class="big-gallery-image" src="" width="1112" height="640">`,
   {
     onShow: () => {
-      document.addEventListener('keydown', keydownEscape);
+      document.addEventListener("keydown", keydownEscape);
     },
     onClose: () => {
-      document.removeEventListener('keydown', keydownEscape);
+      document.removeEventListener("keydown", keydownEscape);
     },
   }
 );
@@ -92,10 +92,6 @@ function keydownEscape(event) {
     const galleryLink = document.createElement("a");
     galleryLink.classList.add("gallery-link");
     galleryLink.href = element.original;
-      
-    galleryLink.addEventListener("click", function(event) {
-    event.preventDefault();
-    });
 
     const galleryImage = document.createElement("img");
     galleryImage.classList.add("gallery-image");
@@ -110,10 +106,10 @@ function keydownEscape(event) {
 
     gallery.addEventListener("click", (event) => {
     event.preventDefault();
-      if (!event.target.nodeName === "img") {
+      if (event.target.nodeName !== "IMG") {
         return;
       }
-    const instanceImg = instance.element().querySelector('.big-gallery-image');
+    const instanceImg = instance.element().querySelector(".big-gallery-image");
     const imgSrc = event.target.dataset.source;
     instanceImg.src = imgSrc;
 
