@@ -64,42 +64,25 @@ const images = [
   },
 ];
 
-function openLightbox(imageSource) {
-    const modalCont = `<img src="${imageSource}" alt="Large Image">`;
-    const instance = basicLightbox.create(modalCont, {
-    onShow: (instance) => {
-    const keydownEscape = (event) => {
-    if (event.key === "Escape") {
-    instance.close();
-    document.removeEventListener('keydown', keydownEscape);
-    }
-  };
-    document.addEventListener('keydown', keydownEscape);
-
-    instance.element().querySelector('a').onclick = () => {
-    instance.close();
-    document.removeEventListener('keydown', keydownEscape);
-    };
-  }
-});
-    instance.show();
-}
-
-
-
 const gallery = document.querySelector(".gallery");
 
-gallery.addEventListener("click", function(event) {
-    event.preventDefault();
-    if (event.target.classList.contains("gallery-image")) {
-    const biglImage = event.target.dataset.source;
-    const modalContent = `<img src="${biglImage}" alt="Large Image">`;
-    const instance = basicLightbox.create(modalContent);
-    instance.show();
+const instance = basicLightbox.create(
+  `<img class="big-gallery-image" src="" width="1112" height="640">`,
+  {
+    onShow: () => {
+      document.addEventListener('keydown', keydownEscape);
+    },
+    onClose: () => {
+      document.removeEventListener('keydown', keydownEscape);
+    },
+  }
+);
+  
+function keydownEscape(event) {
+    if (event.code === "Escape") {
+    instance.close();
     }
-});
-
-
+  }
 
     images.forEach(element => {
         
@@ -124,6 +107,19 @@ gallery.addEventListener("click", function(event) {
     imgGallery.appendChild(galleryLink);
     gallery.appendChild(imgGallery);
     });
+
+    gallery.addEventListener("click", (event) => {
+    event.preventDefault();
+      if (!event.target.nodeName === "img") {
+        return;
+      }
+    const instanceImg = instance.element().querySelector('.big-gallery-image');
+    const imgSrc = event.target.dataset.source;
+    instanceImg.src = imgSrc;
+
+    instance.show();
+  }
+);
 
 
 
